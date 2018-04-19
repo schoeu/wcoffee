@@ -1,18 +1,18 @@
 package main
 
 import (
-	"./config"
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"./config"
 )
 
 func main() {
 	conf := config.GetConf()
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
+	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "pong",
+			"msg": "I`m ready for that, you know.",
 		})
 	})
+
 	r.Run(":" + conf.Port)
 }
