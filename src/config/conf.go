@@ -10,6 +10,7 @@ import (
 
 type Conf struct {
 	Port string `yaml:"port"`
+	DBString string `yaml:"dbstring"`
 }
 
 var globalConfig *Conf

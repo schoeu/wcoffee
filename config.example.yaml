@@ -1,0 +1,2 @@
+port: 8910
+dbstring: "root:username@tcp(ip)/dbname"

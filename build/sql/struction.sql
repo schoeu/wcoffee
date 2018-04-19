@@ -27,9 +27,8 @@ CREATE TABLE `tb_attrs` (
   `name` varchar(45) DEFAULT NULL,
   `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `create_date` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`attrs_id`),
-  UNIQUE KEY `update_date_UNIQUE` (`update_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`attrs_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +46,7 @@ CREATE TABLE `tb_attrs_value` (
   `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `attrs_id` int(11) NOT NULL,
   PRIMARY KEY (`values_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,10 +61,8 @@ CREATE TABLE `tb_category` (
   `name` varchar(45) NOT NULL,
   `create_date` timestamp NULL DEFAULT NULL,
   `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `count` int(11) NOT NULL DEFAULT '0',
-  `order_id` int(11) NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,8 +78,12 @@ CREATE TABLE `tb_category_values` (
   `create_date` timestamp NULL DEFAULT NULL,
   `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `category_id` int(11) NOT NULL,
+  `attrs_value_id` int(11) DEFAULT NULL,
+  `count` int(11) NOT NULL DEFAULT '0',
+  `order_id` int(11) NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`catevalue_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,6 +96,7 @@ DROP TABLE IF EXISTS `tb_order_list`;
 CREATE TABLE `tb_order_list` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
+  `category_value_id` int(11) DEFAULT NULL,
   `order_num` int(11) NOT NULL DEFAULT '0',
   `comments` varchar(500) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
@@ -135,4 +137,4 @@ CREATE TABLE `tb_user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-19 14:41:47
+-- Dump completed on 2018-04-19 18:34:25
