@@ -15,8 +15,9 @@ export default {
 html,body {
   margin: 0;
   padding: 0;
+  color: #333;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: PingFang SC,'Avenir', Helvetica Neue,Helvetica, Arial, sans-serif;
 }
 </style>
