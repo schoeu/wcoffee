@@ -19,9 +19,12 @@ type tagsStruct struct {
 func main() {
 	conf := config.GetConf()
 	r := gin.Default()
+
+	if conf.Mode != "debug" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	r.Use(middlewares.CORS())
 
-	//r.Use(middlewares.JsonP())
 	db := utils.OpenDb("mysql", conf.DBString)
 
 	prefixStr := "category-"

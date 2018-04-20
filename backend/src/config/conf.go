@@ -11,6 +11,7 @@ import (
 type Conf struct {
 	Port     string `yaml:"port"`
 	DBString string `yaml:"dbstring"`
+	Mode string `yaml:"mode"`
 }
 
 var globalConfig *Conf
