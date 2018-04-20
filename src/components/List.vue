@@ -4,8 +4,12 @@
         {{title}}
     </header>
     <div class="list-main flexbox">
-        <aside class="list-sidebar"></aside>
-        <div class="content"></div>
+        <aside class="list-sidebar">
+          <scroll-locator>
+          </scroll-locator>
+        </aside>
+        <div class="content">
+        </div>
     </div>
     <footer class="list-cart">
         <span class="cart-bottom" :class="goodscount?'hasbackgroung':'no-backgroung'">
@@ -27,6 +31,12 @@
 </template>
 
 <script>
+// import API from '../../api/api_user';
+import API from '../api/tags';
+import scrolllocator from './scrollLocator.vue';
+
+console.log(API);
+
 export default {
   data () {
     return {
@@ -35,7 +45,8 @@ export default {
       carttext: "结算",
       price: 0
     }
-  }
+  },
+  components: {'scroll-locator': scrolllocator}
 }
 </script>
 

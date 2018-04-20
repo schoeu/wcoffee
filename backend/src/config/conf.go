@@ -1,7 +1,7 @@
 package config
 
 import (
-	"fmt"
+	"../utils"
 	"github.com/schoeu/golodash"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -9,7 +9,7 @@ import (
 )
 
 type Conf struct {
-	Port string `yaml:"port"`
+	Port     string `yaml:"port"`
 	DBString string `yaml:"dbstring"`
 }
 
@@ -22,16 +22,12 @@ func init() {
 
 func (c *Conf) GetConfig() *Conf {
 	confFileName := "config.yaml"
-	projectPath := filepath.Join(golodash.GetCwd(), ".", confFileName)
+	projectPath := filepath.Join(golodash.GetCwd(), "backend", confFileName)
 	yamlFile, err := ioutil.ReadFile(projectPath)
+	utils.ErrHandle(err)
 
-	if err != nil {
-		fmt.Println(err.Error())
-	}
 	err = yaml.Unmarshal(yamlFile, c)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+	utils.ErrHandle(err)
 
 	return c
 }

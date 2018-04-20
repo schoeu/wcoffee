@@ -6,7 +6,6 @@ import (
 	"log"
 )
 
-
 // 统一错误处理
 func ErrHandle(err error) {
 	if err != nil {

@@ -2,9 +2,8 @@ package main
 
 import (
 	"./config"
+	"./middlewares"
 	"./utils"
-	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,18 +13,17 @@ type cateInfo struct {
 }
 
 type tagsStruct struct {
-	Status int `json:"status"`
-	Data   struct {
-		Items []cateInfo `json:"items"`
-	} `json:"data"`
+	Items []cateInfo `json:"items"`
 }
 
 func main() {
 	conf := config.GetConf()
 	r := gin.Default()
+	r.Use(middlewares.CORS())
+
 	//r.Use(middlewares.JsonP())
 	db := utils.OpenDb("mysql", conf.DBString)
-	
+
 	prefixStr := "category-"
 
 	r.GET("/api/tags", func(c *gin.Context) {
@@ -45,16 +43,16 @@ func main() {
 			ci := cateInfo{}
 			ci.Name = name
 			ci.Anchor = prefixStr + id
-			ts.Data.Items = append(ts.Data.Items, ci)
+			ts.Items = append(ts.Items, ci)
 		}
 		err = rows.Err()
 		utils.ErrHandle(err)
 		defer rows.Close()
 
-		ts.Status = 0
-		b, err := json.Marshal(ts)
-		utils.ErrHandle(err)
-		fmt.Fprintf(c.Writer, "%s(%s);", cbFnName, b)
+		c.JSON(200, gin.H{
+			"status": 0,
+			"data":   ts,
+		})
 	})
 
 	r.GET("/", func(c *gin.Context) {
