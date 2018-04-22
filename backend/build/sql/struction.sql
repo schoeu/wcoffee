@@ -82,6 +82,9 @@ CREATE TABLE `tb_category_values` (
   `count` int(11) NOT NULL DEFAULT '0',
   `order_id` int(11) NOT NULL,
   `description` varchar(100) DEFAULT NULL,
+  `img` varchar(150) DEFAULT NULL,
+  `price` int(11) NOT NULL DEFAULT '0',
+  `alias` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`catevalue_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -137,4 +140,4 @@ CREATE TABLE `tb_user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-19 18:34:25
+-- Dump completed on 2018-04-22 15:31:30
