@@ -4,6 +4,8 @@ import (
 	"./config"
 	"./middlewares"
 	"./utils"
+	"database/sql"
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -67,7 +69,6 @@ func main() {
 	})
 
 	r.GET("/api/list", func(c *gin.Context) {
-		var ls listStruct
 		var lsCtt []listStruct
 		rows, err := db.Query(`SELECT 
 			tb_category.category_id,
@@ -87,22 +88,36 @@ func main() {
 
 		utils.ErrHandle(err)
 
-		var cateId, cateName, cateValName, img, alias string
-		var cateValId, price int
+		var cateId, cateName, cateValName, img, alias sql.NullString
+		var cateValId, price sql.NullInt64
+		var preType = "1"
+		var ls listStruct
 		for rows.Next() {
 			err := rows.Scan(&cateId, &cateName, &cateValId, &cateValName, &img, &price, &alias)
 			utils.ErrHandle(err)
-			ls.Anchor = prefixStr + cateId
-			ls.Typename = cateName
-			ls.List = append(ls.List, ItemStruct{
-				Id:    cateValId,
-				Img:   img,
-				Price: price,
-				Name:  cateValName,
-				Alias: alias,
-			})
+
+			if cateId.String != preType {
+				fmt.Println(cateId.String, preType)
+				lsCtt = append(lsCtt, ls)
+				preType = cateId.String
+				ls.List = []ItemStruct{}
+			} else {
+				ls.Anchor = prefixStr + cateId.String
+				ls.Typename = cateName.String
+				ls.List = append(ls.List, ItemStruct{
+					Id:    int(cateValId.Int64),
+					Img:   img.String,
+					Price: int(price.Int64),
+					Name:  cateValName.String,
+					Alias: alias.String,
+				})
+			}
+
+		}
+		if len(ls.List) > 0 {
 			lsCtt = append(lsCtt, ls)
 		}
+
 		err = rows.Err()
 		utils.ErrHandle(err)
 		defer rows.Close()
