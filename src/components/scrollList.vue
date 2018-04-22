@@ -2,7 +2,7 @@
   <div class="scroll-wrapper goods-list">
     <!-- <li is="todo-item" v-for="(item, index) in items" :item="item" @remove="remove"></li> -->
     <div v-for="(item, key) in list" :key="key">
-        <div class="goods-title" >{{item.typename}}</div>
+        <div class="goods-title" :id="item.anchor">{{item.typename}}</div>
         <div v-for="(i, k) in item.list" :key="k">
             <article class="goods-article" :id="i.id">
                 <div class="flexbox" on="">
@@ -31,15 +31,53 @@
 
 <script>
     import * as apis from '../api';
+    import * as scroll from '../../static/common/js/scroll';
+
+    console.log(scroll, 11);
     export default {
         mounted () {
+            // get list data from server.
             apis.getList().then(res => {
                 this.list = res || [];
             });
+
+            this.$el.parentElement.addEventListener('scroll', this.throttle(this.scrollHandle, 200))
         },
         data () {
             return {
                 list: []
+            }
+        },
+        methods: {
+            scrollHandle: () => {
+                console.log(1);
+            },
+            /**
+             * Throttle a function.
+             * @param {Function} fn
+             * @param {number} delay The run time interval
+             * @return {Function}
+             */
+            throttle: (fn, delay) => {
+                var context, args, timerId;
+                var execTime = 0;
+                !delay && (delay = 10);
+                function exec() {
+                    timerId = 0;
+                    execTime = Date.now();
+                    fn.apply(context, args);
+                };
+                return function () {
+                    var delta = Date.now() - execTime;
+                    context = this;
+                    args = arguments;
+                    clearTimeout(timerId);
+                    if (delta >= delay) {
+                        exec();
+                    } else {
+                        timerId = setTimeout(exec, delay - delta);
+                    }
+                }
             }
         }
     }
