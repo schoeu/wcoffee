@@ -5,7 +5,7 @@
     </header>
     <div class="list-main flexbox">
         <aside class="list-sidebar">
-          <scroll-locator></scroll-locator>
+          <scroll-locator @change="locatorChange"></scroll-locator>
         </aside>
         <div class="content">
           <scroll-list></scroll-list>
@@ -46,6 +46,12 @@ export default {
   components: {
     'scroll-locator': scrollLocator,
     'scroll-list': scrollList
+  },
+  methods: {
+    locatorChange: function() {
+      let archor = arguments[0] || '';
+      console.log(archor);
+    }
   }
 }
 </script>

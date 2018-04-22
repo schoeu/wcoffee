@@ -33,7 +33,6 @@
     import * as apis from '../api';
     import * as scroll from '../../static/common/js/scroll';
 
-    console.log(scroll, 11);
     export default {
         mounted () {
             // get list data from server.
@@ -50,7 +49,6 @@
         },
         methods: {
             scrollHandle: () => {
-                console.log(1);
             },
             /**
              * Throttle a function.

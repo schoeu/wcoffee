@@ -2,7 +2,7 @@
   <div class="scroll-wrapper">
     <!-- <li is="todo-item" v-for="(item, index) in items" :item="item" @remove="remove"></li> -->
     <div v-for="(item, key) in items" :key="key">
-        <div :data-anchor="item.anchor" class="scroll-anchor">
+        <div :data-anchor="item.anchor" class="scroll-anchor" @click="emitHandle">
             {{item.name}}
         </div>
     </div>
@@ -16,10 +16,17 @@
             apis.getTags().then(res => {
                 this.items = res.items || [];
             });
+
         },
         data () {
             return {
                 items: []
+            }
+        },
+        methods: {
+            emitHandle: function (e){
+                let archor = e.target.dataset.anchor || '';
+                this.$emit('change', archor);
             }
         }
     }
