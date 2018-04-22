@@ -1,0 +1,22 @@
+/** commone style **/
+html,body {
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  #app {
+    font-family: PingFang SC,'Avenir', Helvetica Neue,Helvetica, Arial, sans-serif;
+  }
+  .flexbox {
+      display: -webkit-flex;
+      display: flex;
+  }
+  .clamp2{
+      display: -webkit-box;
+      overflow: hidden;
+      margin-bottom: .05rem;
+      white-space: normal;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+  }

@@ -12,12 +12,5 @@ export default {
 </script>
 
 <style>
-html,body {
-  margin: 0;
-  padding: 0;
-  color: #333;
-}
-#app {
-  font-family: PingFang SC,'Avenir', Helvetica Neue,Helvetica, Arial, sans-serif;
-}
+@import url(../static/common/css/common.css);
 </style>

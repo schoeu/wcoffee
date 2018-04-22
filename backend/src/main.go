@@ -5,7 +5,6 @@ import (
 	"./middlewares"
 	"./utils"
 	"database/sql"
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,6 +23,7 @@ type ItemStruct struct {
 	Id    int    `json:"id"`
 	Name  string `json:"name"`
 	Alias string `json:"alias"`
+	Desc  string `json:"desc"`
 }
 type listStruct struct {
 	Anchor   string       `json:"anchor"`
@@ -77,7 +77,8 @@ func main() {
 			tb_category_values.name, 
 			tb_category_values.img, 
 			tb_category_values.price, 
-			tb_category_values.alias 
+			tb_category_values.alias,
+			tb_category_values.desc 
 			FROM 
 			tb_category, 
 			tb_category_values
@@ -88,16 +89,15 @@ func main() {
 
 		utils.ErrHandle(err)
 
-		var cateId, cateName, cateValName, img, alias sql.NullString
+		var cateId, cateName, cateValName, img, alias, desc sql.NullString
 		var cateValId, price sql.NullInt64
 		var preType = "1"
 		var ls listStruct
 		for rows.Next() {
-			err := rows.Scan(&cateId, &cateName, &cateValId, &cateValName, &img, &price, &alias)
+			err := rows.Scan(&cateId, &cateName, &cateValId, &cateValName, &img, &price, &alias, &desc)
 			utils.ErrHandle(err)
 
 			if cateId.String != preType {
-				fmt.Println(cateId.String, preType)
 				lsCtt = append(lsCtt, ls)
 				preType = cateId.String
 				ls.List = []ItemStruct{}
@@ -110,6 +110,7 @@ func main() {
 					Price: int(price.Int64),
 					Name:  cateValName.String,
 					Alias: alias.String,
+					Desc:  desc.String,
 				})
 			}
 

@@ -66,10 +66,6 @@ export default {
   font-weight: 700;
   border-bottom: 1px solid #ddd;
 }
-.flexbox {
-    display: -webkit-flex;
-    display: flex;
-}
 .list-sidebar {
     flex: 1;
     color: #666;
