@@ -68,6 +68,34 @@ func main() {
 		})
 	})
 
+	r.GET("/api/options", func(c *gin.Context) {
+		var ts tagsStruct
+		catevalId := c.Query("id")
+		if catevalId != "" {
+			var name, attrName sql.NullString
+			var price sql.NullInt64
+			rows, err := db.Query("SELECT name, price, attrs_name FROM tb_attrs_value where cateval_id = ? order by attrs_id", catevalId)
+			utils.ErrHandle(err)
+	
+			var id, name string
+			for rows.Next() {
+				err := rows.Scan(&name, &price, &attrName)
+				utils.ErrHandle(err)
+				ci := cateInfo{}
+				ci.Name = name
+				ci.Anchor = prefixStr + id
+				ts.Items = append(ts.Items, ci)
+			}
+			err = rows.Err()
+			utils.ErrHandle(err)
+			defer rows.Close()
+		}
+		c.JSON(200, gin.H{
+			"status": 0,
+			"data":   ts,
+		})
+	})
+
 	r.GET("/api/list", func(c *gin.Context) {
 		var lsCtt []listStruct
 		rows, err := db.Query(`SELECT 
