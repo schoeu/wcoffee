@@ -8,7 +8,7 @@
           <scroll-locator @change="locatorChange"></scroll-locator>
         </aside>
         <div class="content">
-          <scroll-list></scroll-list>
+          <scroll-list threshold=100 @active="anchorAct" during=200></scroll-list>
         </div>
     </div>
     <footer class="list-cart">
@@ -51,6 +51,9 @@ export default {
     locatorChange: function() {
       let archor = arguments[0] || '';
       console.log(archor);
+    },
+    anchorAct: function(e) {
+      console.log(e);
     }
   }
 }

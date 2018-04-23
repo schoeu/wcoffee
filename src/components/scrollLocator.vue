@@ -2,7 +2,7 @@
   <div class="scroll-wrapper">
     <!-- <li is="todo-item" v-for="(item, index) in items" :item="item" @remove="remove"></li> -->
     <div v-for="(item, key) in items" :key="key">
-        <div :data-anchor="item.anchor" class="scroll-anchor" @click="emitHandle">
+        <div :data-anchor="item.anchor" :class="['scroll-anchor', {'scroll-active': item.anchor == anchor}]" @click="emitHandle">
             {{item.name}}
         </div>
     </div>
@@ -11,22 +11,29 @@
 
 <script>
     import * as apis from '../api';
+
     export default {
         mounted () {
             apis.getTags().then(res => {
                 this.items = res.items || [];
             });
 
+            bus.$on('locator-active', e => {
+                if (e) {
+                    this.anchor = e;
+                }
+            });
         },
         data () {
             return {
-                items: []
+                items: [],
+                anchor: ''
             }
         },
         methods: {
             emitHandle: function (e){
                 let archor = e.target.dataset.anchor || '';
-                this.$emit('change', archor);
+                bus.$emit('locatorChange', archor);
             }
         }
     }
@@ -40,7 +47,7 @@
     border-bottom: 1px solid #e8e8e8;
     background-color: #f8f8f8;
 }
-.scroll-anchor.active {
+.scroll-active{
     color: #333;
     background-color: #fff;
 }

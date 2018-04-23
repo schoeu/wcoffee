@@ -2,7 +2,7 @@
   <div class="scroll-wrapper goods-list">
     <!-- <li is="todo-item" v-for="(item, index) in items" :item="item" @remove="remove"></li> -->
     <div v-for="(item, key) in list" :key="key">
-        <div class="goods-title" :id="item.anchor">{{item.typename}}</div>
+        <div class="goods-title" :id="item.anchor" ref="typename">{{item.typename}}</div>
         <div v-for="(i, k) in item.list" :key="k">
             <article class="goods-article" :id="i.id">
                 <div class="flexbox" on="">
@@ -32,6 +32,7 @@
 <script>
     import * as apis from '../api';
     import * as scroll from '../../static/common/js/scroll';
+    import {scrollBy} from '../../static/common/js/scroll';
 
     export default {
         mounted () {
@@ -40,7 +41,22 @@
                 this.list = res || [];
             });
 
-            this.$el.parentElement.addEventListener('scroll', this.throttle(this.scrollHandle, 200))
+            console.log(this);
+            let during = this.$attrs.during || 200;
+            let content = this.$el.parentElement;
+            bus.$on('locatorChange', anchor => {
+                let target = this.$el.querySelector(`[data-anchor="${anchor}"]`);
+                if (target) {
+                    let top = target.getBoundingClientRect().top || 0;
+                    scrollBy(content, top + 50, during); 
+                }
+            });
+        },
+        updated () {
+            this.$el.parentElement.addEventListener('scroll', this.throttle(this.scrollHandle.bind(this), this.$attrs.threshold || 0))
+            this.screenHeight = screen.height;
+            this.types = this.$refs.typename || [];
+            this.scrollHandle();
         },
         data () {
             return {
@@ -48,7 +64,15 @@
             }
         },
         methods: {
-            scrollHandle: () => {
+            scrollHandle: function () {
+                for (var i = 0; i < this.types.length; i++) {
+                    var item = this.types[i];
+                    var top = item.getBoundingClientRect().top;
+                    if (top > 0 && top < this.screenHeight) {
+                        bus.$emit('loacator-active', item.id);
+                        break;
+                    }
+                }
             },
             /**
              * Throttle a function.
