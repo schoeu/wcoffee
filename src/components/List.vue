@@ -8,7 +8,7 @@
           <scroll-locator @change="locatorChange"></scroll-locator>
         </aside>
         <div class="content">
-          <scroll-list threshold=100 @active="anchorAct" during=200></scroll-list>
+          <scroll-list threshold=50 @active="anchorAct" during=300></scroll-list>
         </div>
     </div>
     <footer class="list-cart">

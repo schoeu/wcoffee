@@ -1,8 +1,8 @@
 <template>
   <div class="scroll-wrapper goods-list">
     <!-- <li is="todo-item" v-for="(item, index) in items" :item="item" @remove="remove"></li> -->
-    <div v-for="(item, key) in list" :key="key">
-        <div class="goods-title" :id="item.anchor" ref="typename">{{item.typename}}</div>
+    <div v-for="(item, key) in list" :key="key" :id="item.anchor" ref="typename">
+        <div class="goods-title">{{item.typename}}</div>
         <div v-for="(i, k) in item.list" :key="k">
             <article class="goods-article" :id="i.id">
                 <div class="flexbox" on="">
@@ -32,10 +32,12 @@
 <script>
     import * as apis from '../api';
     import * as scroll from '../../static/common/js/scroll';
-    import {scrollBy} from '../../static/common/js/scroll';
+    import bus from '../../static/common/js/bus';
+    import {scrollTo} from '../../static/common/js/scroll';
 
     export default {
         mounted () {
+            var me = this;
             // get list data from server.
             apis.getList().then(res => {
                 this.list = res || [];
@@ -45,10 +47,9 @@
             let during = this.$attrs.during || 200;
             let content = this.$el.parentElement;
             bus.$on('locatorChange', anchor => {
-                let target = this.$el.querySelector(`[data-anchor="${anchor}"]`);
-                if (target) {
-                    let top = target.getBoundingClientRect().top || 0;
-                    scrollBy(content, top + 50, during); 
+                if (anchor) {
+                    let h = this.getHeight(anchor);
+                    scrollTo(content, h, during);
                 }
             });
         },
@@ -64,12 +65,26 @@
             }
         },
         methods: {
+            getHeight (id) {
+                let t = this.types;
+                var h = 0;
+                for (let i = 0; i < t.length; i++) {
+                    let item = t[i];
+                    if (item.id !== id) {
+                        h += item.clientHeight || 0;
+                    }
+                    else {
+                        break;
+                    }
+                }
+                return h;
+            },
             scrollHandle: function () {
-                for (var i = 0; i < this.types.length; i++) {
-                    var item = this.types[i];
-                    var top = item.getBoundingClientRect().top;
+                for (let i = 0; i < this.types.length; i++) {
+                    let item = this.types[i];
+                    let top = item.getBoundingClientRect().top;
                     if (top > 0 && top < this.screenHeight) {
-                        bus.$emit('loacator-active', item.id);
+                        bus.$emit('locatorActive', item.id);
                         break;
                     }
                 }

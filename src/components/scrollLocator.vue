@@ -11,6 +11,7 @@
 
 <script>
     import * as apis from '../api';
+    import bus from '../../static/common/js/bus';
 
     export default {
         mounted () {
@@ -18,7 +19,7 @@
                 this.items = res.items || [];
             });
 
-            bus.$on('locator-active', e => {
+            bus.$on('locatorActive', e => {
                 if (e) {
                     this.anchor = e;
                 }
