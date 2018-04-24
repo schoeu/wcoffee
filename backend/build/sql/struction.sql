@@ -16,22 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tb_attrs`
---
-
-DROP TABLE IF EXISTS `tb_attrs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tb_attrs` (
-  `attrs_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `create_date` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`attrs_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `tb_attrs_value`
 --
 
@@ -40,13 +24,16 @@ DROP TABLE IF EXISTS `tb_attrs_value`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_attrs_value` (
   `values_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `price` int(11) DEFAULT NULL,
-  `create_date` timestamp NULL DEFAULT NULL,
+  `name` varchar(45) DEFAULT '',
+  `price` int(11) DEFAULT '0',
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `attrs_name` varchar(45) NOT NULL DEFAULT '',
+  `cateval_id` int(11) NOT NULL,
   `attrs_id` int(11) NOT NULL,
+  `is_default` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`values_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -59,7 +46,7 @@ DROP TABLE IF EXISTS `tb_category`;
 CREATE TABLE `tb_category` (
   `category_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `create_date` timestamp NULL DEFAULT NULL,
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
@@ -74,17 +61,18 @@ DROP TABLE IF EXISTS `tb_category_values`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_category_values` (
   `catevalue_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `create_date` timestamp NULL DEFAULT NULL,
+  `name` varchar(45) DEFAULT '',
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `category_id` int(11) NOT NULL,
   `attrs_value_id` int(11) DEFAULT NULL,
   `count` int(11) NOT NULL DEFAULT '0',
   `order_id` int(11) NOT NULL,
-  `description` varchar(100) DEFAULT NULL,
-  `img` varchar(150) DEFAULT NULL,
+  `description` varchar(100) DEFAULT '',
+  `img` varchar(150) DEFAULT '',
   `price` int(11) NOT NULL DEFAULT '0',
-  `alias` varchar(45) DEFAULT NULL,
+  `alias` varchar(45) DEFAULT '',
+  `desc` varchar(100) DEFAULT '',
   PRIMARY KEY (`catevalue_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -140,4 +128,4 @@ CREATE TABLE `tb_user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-22 15:31:30
+-- Dump completed on 2018-04-24 13:32:51
