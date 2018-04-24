@@ -5,7 +5,6 @@ import (
 	"./middlewares"
 	"./routers"
 	"./utils"
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,7 +21,6 @@ func main() {
 
 	r.GET("/api/:type", func(c *gin.Context) {
 		path := c.Param("type")
-		fmt.Println(path)
 		handler := routers.RouterMap[path]
 
 		if handler != nil {
