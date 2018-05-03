@@ -3,7 +3,7 @@
     <!-- <li is="todo-item" v-for="(item, index) in items" :item="item" @remove="remove"></li> -->
     <div v-for="(item, key) in list" :key="key" :id="item.anchor" ref="typename">
         <div class="goods-title">{{item.typename}}</div>
-        <div v-for="(i, k) in item.list" :key="k">
+        <div v-for="(i, k) in item.list" :key="k" @click="getOptions(i.id)">
             <article class="goods-article" :id="i.id">
                 <div class="flexbox" on="">
                     <div class="goods-img">
@@ -78,6 +78,9 @@
                     }
                 }
                 return h;
+            },
+            getOptions (id) {
+                bus.$emit('listOptions', id);
             },
             scrollHandle: function () {
                 for (let i = 0; i < this.types.length; i++) {

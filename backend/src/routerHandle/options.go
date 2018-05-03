@@ -3,7 +3,6 @@ package routerHandle
 import (
 	"../utils"
 	"database/sql"
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
